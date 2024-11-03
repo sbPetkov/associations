@@ -8,7 +8,7 @@ const PlayerForm = ({ onPlayerCreated }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const response = await axios.post('http://127.0.0.1:8000/api/players/', { name: playerName });
+        const response = await axios.post('http://ec2-18-234-44-48.compute-1.amazonaws.com/api/players/', { name: playerName });
         onPlayerCreated(response.data);
         setPlayerName('');
     };

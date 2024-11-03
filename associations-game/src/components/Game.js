@@ -18,10 +18,10 @@ const Game = ({ roomId, onExitGame }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const roomResponse = await axios.get(`http://127.0.0.1:8000/api/rooms/${roomId}/`);
+                const roomResponse = await axios.get(`http://ec2-18-234-44-48.compute-1.amazonaws.com/api/rooms/${roomId}/`);
                 const playerIds = roomResponse.data.players;
 
-                const playersResponse = await axios.get(`http://127.0.0.1:8000/api/players/`);
+                const playersResponse = await axios.get(`http://ec2-18-234-44-48.compute-1.amazonaws.com/api/players/`);
                 const allPlayers = playersResponse.data.filter(player => playerIds.includes(player.id));
 
                 // Split players into two teams and initialize as queues
@@ -36,7 +36,7 @@ const Game = ({ roomId, onExitGame }) => {
             }
 
             try {
-                const wordsResponse = await axios.get(`http://127.0.0.1:8000/api/rooms/${roomId}/words/`);
+                const wordsResponse = await axios.get(`http://ec2-18-234-44-48.compute-1.amazonaws.com/api/rooms/${roomId}/words/`);
                 setWords(wordsResponse.data);
             } catch (error) {
                 console.error('Error fetching words:', error);
@@ -152,7 +152,7 @@ const Game = ({ roomId, onExitGame }) => {
         const word = words[0]; // Get the current word for the hint
         if (word) {
             try {
-                const response = await axios.get(`http://127.0.0.1:8000/api/image-search/?word=${word}`);
+                const response = await axios.get(`http://ec2-18-234-44-48.compute-1.amazonaws.com/api/image-search/?word=${word}`);
                 setImages(response.data.images); // Set images to state
                 setShowImages(true); // Show images
             } catch (error) {
@@ -166,7 +166,7 @@ const Game = ({ roomId, onExitGame }) => {
         const word = words[0]; // Get the current word
         if (word) {
             try {
-                const response = await axios.post(`http://127.0.0.1:8000/api/get-word-description/`, { word });
+                const response = await axios.post(`http://ec2-18-234-44-48.compute-1.amazonaws.com/api/get-word-description/`, { word });
                 setAiHint(response.data.description); // Set AI hint to state
             } catch (error) {
                 console.error('Error fetching AI hint:', error);

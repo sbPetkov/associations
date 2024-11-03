@@ -13,7 +13,7 @@ const AddWordsForm = ({ roomId, onClose }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://127.0.0.1:8000/api/words/', {
+            const response = await axios.post('http://ec2-18-234-44-48.compute-1.amazonaws.com/api/words/', {
                 related_to_room: roomId,
                 plant,
                 animal,
