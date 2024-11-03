@@ -1,0 +1,14 @@
+/* src/components/Room.css */
+
+.delete-button {
+    background-color: red;
+    color: white; /* Text color */
+    border: none; /* Remove border */
+    padding: 10px 15px; /* Add some padding */
+    cursor: pointer; /* Pointer cursor on hover */
+    border-radius: 5px; /* Rounded corners */
+}
+
+.delete-button:hover {
+    background-color: darkred; /* Darker red on hover */
+}

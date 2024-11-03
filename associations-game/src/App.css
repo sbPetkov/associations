@@ -1,0 +1,114 @@
+/* src/App.css */
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f4f8;
+    margin: 0;
+    padding: 0;
+}
+
+.app {
+    text-align: center;
+    padding: 20px;
+}
+
+h1 {
+    color: #2c3e50;
+}
+
+form {
+    margin: 20px 0;
+}
+
+input {
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid #bdc3c7;
+    border-radius: 5px;
+}
+
+button {
+    padding: 10px 15px;
+    margin: 5px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+/* New Room Button Style */
+.new-room-button {
+    padding: 10px 15px;
+    background-color: #2ecc71; /* Green color for the new room button */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-bottom: 20px; /* Space below the button */
+}
+
+.new-room-button:hover {
+    background-color: #27ae60; /* Darker shade on hover */
+}
+
+/* Room List */
+.room-list {
+    margin: 20px 0;
+    transition: opacity 0.5s ease-in-out; /* Transition effect for the room list */
+}
+
+.fade-out {
+    opacity: 0; /* Fade out effect */
+}
+
+.room {
+    background-color: #ecf0f1;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 10px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.room h3 {
+    margin: 0;
+}
+
+/* Add Words Form */
+.add-words-form {
+    width: 100%;
+    max-width: 400px;
+    margin: 20px auto;
+    animation: slide-in 0.5s forwards; /* Slide-in effect */
+}
+
+@keyframes slide-in {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* New Room Form Style */
+.new-room-form {
+    width: 100%;
+    max-width: 400px; /* Same max width as add words form */
+    margin: 20px auto;
+    animation: slide-in 0.5s forwards; /* Slide-in effect for the new room form */
+}
+
+@media (max-width: 600px) {
+    input, button {
+        width: 90%; /* Responsive input/button width */
+    }
+}

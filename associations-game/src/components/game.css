@@ -1,0 +1,150 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+.game-container {
+    max-width: 800px;
+    margin: auto;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+.game-info {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.timer {
+    font-size: 3em; /* Make the timer larger */
+    transition: color 0.5s ease; /* Smooth transition for color changes */
+}
+
+/* Normal timer state when more than 10 seconds */
+.timer-normal {
+    color: #28a745; /* Green color */
+}
+
+/* Timer danger state when less than 10 seconds */
+.timer-danger {
+    color: #dc3545; /* Red color for danger */
+    animation: pulse 1s infinite; /* Pulsing effect */
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.score {
+    font-size: 1.2em;
+    color: #333;
+}
+
+.word-display {
+    font-size: 2em;
+    color: #333;
+}
+
+.btn {
+    padding: 10px 15px;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #007bff; /* Bootstrap primary color */
+    color: white;
+    transition: background-color 0.3s;
+}
+
+.btn:hover {
+    background-color: #0056b3; /* Darker shade for hover effect */
+}
+
+.start-btn {
+    background-color: #28a745; /* Green for start button */
+}
+
+.start-btn:hover {
+    background-color: #218838; /* Darker green on hover */
+}
+
+.guess-btn {
+    background-color: #ffc107; /* Yellow for guess button */
+}
+
+.guess-btn:hover {
+    background-color: #e0a800; /* Darker yellow on hover */
+}
+
+.next-btn {
+    background-color: #17a2b8; /* Teal for next button */
+}
+
+.next-btn:hover {
+    background-color: #138496; /* Darker teal on hover */
+}
+
+.teams {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.team {
+    width: 45%;
+}
+
+.team h3 {
+    text-align: center;
+}
+
+.team ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.team li {
+    text-align: center;
+    padding: 5px;
+    background: #f1f1f1;
+    margin: 5px 0;
+    border-radius: 4px;
+}
+
+/* Styles for hint images */
+.image-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Center images in the gallery */
+    margin-top: 20px; /* Space above the gallery */
+}
+
+.image-gallery img {
+    width: 100px; /* Set the width as needed */
+    height: auto; /* Maintain aspect ratio */
+    margin: 0 5px; /* Space between images */
+    border-radius: 8px; /* Optional: Add some border radius */
+}
+
+.ai-hint {
+    margin-top: 20px; /* Space above the AI hint */
+    font-style: italic; /* Italics for AI hint */
+    text-align: center; /* Center the text */
+}

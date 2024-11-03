@@ -1,0 +1,78 @@
+.new-room-form-container {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.room-name-input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.players-selection {
+    display: flex;
+    justify-content: space-between;
+}
+
+.available-players,
+.selected-players {
+    width: 45%;
+    padding: 10px;
+    background-color: rgba(173, 216, 230, 0.5); /* Light blue tint */
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    max-height: 300px; /* Set a max height for scrolling */
+}
+
+h3 {
+    text-align: center;
+    color: #333;
+}
+
+.player-item {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    margin: 5px 0;
+    border-radius: 5px;
+    cursor: pointer; /* Change cursor to pointer for clickability */
+    transition: background-color 0.2s;
+}
+
+.player-item:hover {
+    background-color: rgba(230, 230, 230, 0.7); /* Hover effect */
+}
+
+.submit-button {
+    padding: 10px;
+    font-size: 16px;
+    color: white;
+    background-color: #007bff; /* Bootstrap primary color */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 20px;
+}
+
+.submit-button:hover {
+    background-color: #0056b3; /* Darker shade for hover effect */
+}
