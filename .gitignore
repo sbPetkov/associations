@@ -7,9 +7,5 @@ venv
 __pycache__/
 *.pyc
 
-/associations-game/node_modules/
-associations-game/node_modules/
-/associations-game/node_modules/*
-associations-game/node_modules/*
-
+# Ignore all node_modules folders across the project
 node_modules/
