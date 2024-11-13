@@ -3,7 +3,8 @@ import axios from 'axios';
 import './game.css';
 
 const Game = ({ roomId, onExitGame }) => {
-    const [words, setWords] = useState([]);
+    const [words, setWords] = useState([]); // To store the current words
+    const [originalWords, setOriginalWords] = useState([]); // To store the original words
     const [timer, setTimer] = useState(60);
     const [teamQueues, setTeamQueues] = useState({ team1: [], team2: [] });
     const [scores, setScores] = useState({ team1: 0, team2: 0 });
@@ -11,10 +12,9 @@ const Game = ({ roomId, onExitGame }) => {
     const [isGameStarted, setIsGameStarted] = useState(false);
     const [isTimerRunning, setIsTimerRunning] = useState(false);
     const [timerId, setTimerId] = useState(null);
-    const [images, setImages] = useState([]);  // State for images
-    const [showImages, setShowImages] = useState(false);  // State to toggle image visibility
     const [aiHint, setAiHint] = useState(''); // State for AI hint description
 
+    // Fetch room and player data
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -38,6 +38,7 @@ const Game = ({ roomId, onExitGame }) => {
             try {
                 const wordsResponse = await axios.get(`http://ec2-18-234-44-48.compute-1.amazonaws.com/api/rooms/${roomId}/words/`);
                 setWords(wordsResponse.data);
+                setOriginalWords(wordsResponse.data); // Save the original words
             } catch (error) {
                 console.error('Error fetching words:', error);
             }
@@ -68,7 +69,6 @@ const Game = ({ roomId, onExitGame }) => {
         clearInterval(timerId);
         setIsTimerRunning(false);
         setTimer(60); // Reset timer for the new turn
-        setShowImages(false); // Hide images after turn ends
         setAiHint(''); // Clear AI hint after turn ends
 
         // Rotate the current player by moving them to the end of their team's queue
@@ -101,10 +101,15 @@ const Game = ({ roomId, onExitGame }) => {
             setWords(newWords);
 
             if (newWords.length === 0) {
-                alert("Game Over!");
+                alert("You guessed it all! Start next round?");
+                const isReady = window.confirm("Start next round?");
+
+                if (isReady) {
+                    setWords(shuffleArray([...originalWords]));
+                    startTimer();
+                }
             }
-            setShowImages(false); // Hide images after guessing
-            setAiHint(''); // Clear AI hint after guessing
+            setAiHint('');
         }
     };
 
@@ -147,20 +152,6 @@ const Game = ({ roomId, onExitGame }) => {
 
     const currentPlayer = teamQueues[`team${currentTeam}`][0]?.name;
 
-    // Function to fetch images from the API
-    const fetchImages = async () => {
-        const word = words[0]; // Get the current word for the hint
-        if (word) {
-            try {
-                const response = await axios.get(`http://ec2-18-234-44-48.compute-1.amazonaws.com/api/image-search/?word=${word}`);
-                setImages(response.data.images); // Set images to state
-                setShowImages(true); // Show images
-            } catch (error) {
-                console.error('Error fetching images:', error);
-            }
-        }
-    };
-
     // Function to fetch AI hint from the API
     const fetchAIHint = async () => {
         const word = words[0]; // Get the current word
@@ -183,7 +174,6 @@ const Game = ({ roomId, onExitGame }) => {
                 </div>
 
                 <div className="word-display">
-                    {/* Hide word when time is up or game hasn't started */}
                     {(isGameStarted && isTimerRunning) ? displayWord() : null}
                 </div>
             </div>
@@ -195,8 +185,7 @@ const Game = ({ roomId, onExitGame }) => {
                     {isTimerRunning && (
                         <>
                             <button className="btn guess-btn" onClick={guessWord}>Guess</button>
-                            <button className="btn" onClick={fetchImages}>Image</button> {/* Image button */}
-                            <button className="btn" onClick={fetchAIHint}>AI Hint</button> {/* AI Hint button */}
+                            <button className="btn" onClick={fetchAIHint}>AI Hint</button>
                         </>
                     )}
                     {!isTimerRunning && (
@@ -225,14 +214,6 @@ const Game = ({ roomId, onExitGame }) => {
                     </ul>
                 </div>
             </div>
-
-            {showImages && images.length > 0 && (
-                <div className="image-gallery">
-                    {images.map((image, index) => (
-                        <img key={index} src={image} alt={`Hint for ${words[0]}`} className="hint-image" />
-                    ))}
-                </div>
-            )}
 
             {aiHint && (
                 <div className="ai-hint">
