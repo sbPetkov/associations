@@ -3,8 +3,8 @@ import axios from 'axios';
 import './game.css';
 
 const Game = ({ roomId, onExitGame }) => {
-    const [words, setWords] = useState([]); // To store the current words
-    const [originalWords, setOriginalWords] = useState([]); // To store the original words
+    const [words, setWords] = useState([]);
+    const [originalWords, setOriginalWords] = useState([]);
     const [timer, setTimer] = useState(60);
     const [teamQueues, setTeamQueues] = useState({ team1: [], team2: [] });
     const [scores, setScores] = useState({ team1: 0, team2: 0 });
@@ -12,9 +12,8 @@ const Game = ({ roomId, onExitGame }) => {
     const [isGameStarted, setIsGameStarted] = useState(false);
     const [isTimerRunning, setIsTimerRunning] = useState(false);
     const [timerId, setTimerId] = useState(null);
-    const [aiHint, setAiHint] = useState(''); // State for AI hint description
+    const [aiHint, setAiHint] = useState('');
 
-    // Fetch room and player data
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -24,7 +23,6 @@ const Game = ({ roomId, onExitGame }) => {
                 const playersResponse = await axios.get(`http://ec2-18-234-44-48.compute-1.amazonaws.com/api/players/`);
                 const allPlayers = playersResponse.data.filter(player => playerIds.includes(player.id));
 
-                // Split players into two teams and initialize as queues
                 const half = Math.ceil(allPlayers.length / 2);
                 const team1Queue = allPlayers.slice(0, half);
                 const team2Queue = allPlayers.slice(half);
@@ -38,7 +36,7 @@ const Game = ({ roomId, onExitGame }) => {
             try {
                 const wordsResponse = await axios.get(`http://ec2-18-234-44-48.compute-1.amazonaws.com/api/rooms/${roomId}/words/`);
                 setWords(wordsResponse.data);
-                setOriginalWords(wordsResponse.data); // Save the original words
+                setOriginalWords(wordsResponse.data);
             } catch (error) {
                 console.error('Error fetching words:', error);
             }
@@ -68,10 +66,9 @@ const Game = ({ roomId, onExitGame }) => {
     const endTurn = () => {
         clearInterval(timerId);
         setIsTimerRunning(false);
-        setTimer(60); // Reset timer for the new turn
-        setAiHint(''); // Clear AI hint after turn ends
+        setTimer(60);
+        setAiHint('');
 
-        // Rotate the current player by moving them to the end of their team's queue
         setTeamQueues(prevQueues => {
             const currentTeamKey = `team${currentTeam}`;
             const updatedCurrentTeamQueue = [...prevQueues[currentTeamKey]];
@@ -84,7 +81,6 @@ const Game = ({ roomId, onExitGame }) => {
             };
         });
 
-        // Switch to the opposite team for the next turn
         setCurrentTeam(prevTeam => (prevTeam === 1 ? 2 : 1));
     };
 
@@ -97,7 +93,7 @@ const Game = ({ roomId, onExitGame }) => {
                 [`team${currentTeam}`]: prevScores[`team${currentTeam}`] + 1
             }));
 
-            const newWords = words.slice(1); // Take all words except the first one
+            const newWords = words.slice(1);
             setWords(newWords);
 
             if (newWords.length === 0) {
@@ -116,7 +112,7 @@ const Game = ({ roomId, onExitGame }) => {
     const displayWord = () => {
         if (isGameStarted) {
             if (words.length > 0) {
-                return <strong>{words[0]}</strong>; // Make the word bold
+                return <strong>{words[0]}</strong>;
             } else {
                 return "Game Over!";
             }
@@ -127,14 +123,25 @@ const Game = ({ roomId, onExitGame }) => {
     const shuffleArray = (array) => {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+            [array[i], array[j]] = [array[j], array[i]];
         }
         return array;
     };
 
+    const shuffleTeams = () => {
+        const allPlayers = [...teamQueues.team1, ...teamQueues.team2];
+        const shuffledPlayers = shuffleArray(allPlayers);
+
+        const half = Math.ceil(shuffledPlayers.length / 2);
+        const team1Queue = shuffledPlayers.slice(0, half);
+        const team2Queue = shuffledPlayers.slice(half);
+
+        setTeamQueues({ team1: team1Queue, team2: team2Queue });
+    };
+
     const startGame = () => {
-        const shuffledWords = shuffleArray([...words]); // Create a shuffled copy of the words
-        setWords(shuffledWords); // Update the words state with the shuffled array
+        const shuffledWords = shuffleArray([...words]);
+        setWords(shuffledWords);
         setIsGameStarted(true);
         startTimer();
     };
@@ -143,22 +150,21 @@ const Game = ({ roomId, onExitGame }) => {
         const isReady = window.confirm("Are you ready for the next player?");
 
         if (isReady) {
-            const shuffledWords = shuffleArray([...words]); // Create a shuffled copy of the words
-            setWords(shuffledWords); // Update the words state with the shuffled array
+            const shuffledWords = shuffleArray([...words]);
+            setWords(shuffledWords);
 
-            startTimer(); // Start the timer for the next player
+            startTimer();
         }
     };
 
     const currentPlayer = teamQueues[`team${currentTeam}`][0]?.name;
 
-    // Function to fetch AI hint from the API
     const fetchAIHint = async () => {
-        const word = words[0]; // Get the current word
+        const word = words[0];
         if (word) {
             try {
                 const response = await axios.post(`http://ec2-18-234-44-48.compute-1.amazonaws.com/api/get-word-description/`, { word });
-                setAiHint(response.data.description); // Set AI hint to state
+                setAiHint(response.data.description);
             } catch (error) {
                 console.error('Error fetching AI hint:', error);
             }
@@ -178,6 +184,10 @@ const Game = ({ roomId, onExitGame }) => {
                 </div>
             </div>
 
+            {!isGameStarted && (
+                <button className="btn shuffle-btn" onClick={shuffleTeams}>Shuffle Teams</button>
+            )}
+
             {!isGameStarted ? (
                 <button className="btn start-btn" onClick={startGame}>Start Game</button>
             ) : (
@@ -193,6 +203,7 @@ const Game = ({ roomId, onExitGame }) => {
                     )}
                 </>
             )}
+
             <div className="current-player">Current Player: {currentPlayer}</div>
             <div className="teams">
                 <div className="team">
