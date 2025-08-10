@@ -17,10 +17,10 @@ const Game = ({ roomId, onExitGame }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const roomResponse = await axios.get(`http://ec2-18-234-44-48.compute-1.amazonaws.com/api/rooms/${roomId}/`);
+                const roomResponse = await axios.get(`/api/rooms/${roomId}/`);
                 const playerIds = roomResponse.data.players;
 
-                const playersResponse = await axios.get(`http://ec2-18-234-44-48.compute-1.amazonaws.com/api/players/`);
+                const playersResponse = await axios.get(`/api/players/`);
                 const allPlayers = playersResponse.data.filter(player => playerIds.includes(player.id));
 
                 const half = Math.ceil(allPlayers.length / 2);
@@ -34,7 +34,7 @@ const Game = ({ roomId, onExitGame }) => {
             }
 
             try {
-                const wordsResponse = await axios.get(`http://ec2-18-234-44-48.compute-1.amazonaws.com/api/rooms/${roomId}/words/`);
+                const wordsResponse = await axios.get(`/api/rooms/${roomId}/words/`);
                 setWords(wordsResponse.data);
                 setOriginalWords(wordsResponse.data);
             } catch (error) {
@@ -163,7 +163,7 @@ const Game = ({ roomId, onExitGame }) => {
         const word = words[0];
         if (word) {
             try {
-                const response = await axios.post(`http://ec2-18-234-44-48.compute-1.amazonaws.com/api/get-word-description/`, { word });
+                const response = await axios.post(`/api/get-word-description/`, { word });
                 setAiHint(response.data.description);
             } catch (error) {
                 console.error('Error fetching AI hint:', error);

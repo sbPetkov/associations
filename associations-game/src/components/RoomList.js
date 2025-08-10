@@ -8,7 +8,7 @@ const RoomList = ({ onAddWords, onJoinRoom }) => {
     const [rooms, setRooms] = useState([]);
 
     const fetchRooms = async () => {
-        const response = await axios.get('http://ec2-18-234-44-48.compute-1.amazonaws.com/api/rooms/');
+        const response = await axios.get('/api/rooms/');
         setRooms(response.data);
     };
 

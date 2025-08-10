@@ -11,7 +11,7 @@ const Room = ({ room, onAddWords, onJoinRoom, onRoomDeleted }) => {
         const confirmDelete = window.confirm("Are you sure you want to delete this room?");
         if (confirmDelete) {
             try {
-                await axios.delete(`http://ec2-18-234-44-48.compute-1.amazonaws.com/api/rooms/${room.id}/delete/`);
+                await axios.delete(`/api/rooms/${room.id}/delete/`);
                 onRoomDeleted(room.id); // Notify parent component to update the room list
             } catch (error) {
                 console.error("Error deleting room:", error);

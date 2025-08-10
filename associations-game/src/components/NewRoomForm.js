@@ -9,7 +9,7 @@ const NewRoomForm = ({ onRoomCreated }) => {
 
     useEffect(() => {
         const fetchPlayers = async () => {
-            const response = await axios.get('http://ec2-18-234-44-48.compute-1.amazonaws.com/api/players/');
+            const response = await axios.get('/api/players/');
             setPlayers(response.data);
         };
         fetchPlayers();
@@ -17,7 +17,7 @@ const NewRoomForm = ({ onRoomCreated }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const response = await axios.post('http://ec2-18-234-44-48.compute-1.amazonaws.com/api/rooms/', {
+        const response = await axios.post('/api/rooms/', {
             name: roomName,
             players: selectedPlayers,  // assuming your Room model has a ManyToMany field for players
         });
